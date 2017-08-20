@@ -2136,10 +2136,6 @@ class UnitOfWork implements PropertyChangedListener
 
             switch (true) {
                 case ($relatedEntities instanceof PersistentCollection):
-                    // Unwrap so that foreach() does not initialize
-                    $relatedEntities = $relatedEntities->unwrap();
-                    // break; is commented intentionally!
-
                 case ($relatedEntities instanceof Collection):
                 case (is_array($relatedEntities)):
                     foreach ($relatedEntities as $relatedEntity) {
