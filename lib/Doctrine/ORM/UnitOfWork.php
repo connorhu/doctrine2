@@ -2183,6 +2183,16 @@ class UnitOfWork implements PropertyChangedListener
                 }
 
                 if ($relatedEntities instanceof PersistentCollection) {
+                    if ($relatedEntities->getOwner() === null) {
+                        $targetEtity = $class->associationMappings[$assoc['fieldName']]['targetEntity'];
+                        $targetClass = $this->em->getClassMetadata($targetEtity);
+                        $pColl = new PersistentCollection($this->em, $targetClass, new ArrayCollection);
+                        $pColl->setOwner($entity, $assoc);
+                        $pColl->setInitialized(false);
+                        $relatedEntities = $pColl;
+                        $class->reflFields[$assoc['fieldName']]->setValue($managedCopy, $pColl);
+                    }
+
                     // Unwrap so that foreach() does not initialize
                     $relatedEntities = $relatedEntities->unwrap();
                 }
