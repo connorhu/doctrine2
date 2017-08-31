@@ -2009,9 +2009,8 @@ class UnitOfWork implements PropertyChangedListener
                     $this->originalEntityData[$oid]
                 );
                 break;
-            case self::STATE_DETACHED:
-                break;
             case self::STATE_NEW:
+            case self::STATE_DETACHED:
                 return;
         }
 
